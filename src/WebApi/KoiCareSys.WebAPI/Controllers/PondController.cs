@@ -2,6 +2,7 @@
 using KoiCareSys.Data.Models;
 using KoiCareSys.Serivice.Base;
 using KoiCareSys.Service.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -19,6 +20,7 @@ namespace KoiCareSys.WebAPI.Controllers
             _pondService = pondService;
         }
 
+        [Authorize]
         [EnableQuery]
         [HttpGet]
         public async Task<IActionResult> GetODataAll()
@@ -52,6 +54,7 @@ namespace KoiCareSys.WebAPI.Controllers
         //    return await _pondService.GetById(id);
         //}
 
+        [Authorize]
         [EnableQuery]
         [HttpGet("{id}")]
         public async Task<ActionResult<Pond>> GetPondById(Guid id)

@@ -168,6 +168,11 @@ namespace KoiCareSys.Data.Base
             return _context.Set<T>().FirstOrDefault();
         }
 
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return _context.Set<User>().Where(u => u.Email.Equals(email)).FirstOrDefault();
+        }
+
         #region Separating asign entity and save operators        
 
         public void PrepareCreate(T entity)
