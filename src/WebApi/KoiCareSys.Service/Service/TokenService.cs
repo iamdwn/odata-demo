@@ -23,13 +23,15 @@ namespace KoiCareSys.Service.Service
 
         public string GenerateToken(LoginDTO dto)
         {
-            var user = _unitOfWork.User.GetByEmailAsync(dto.Email);
-            if (user.Result == null) return "User not found.";
+            var user = _unitOfWork.User.GetAllAsync(
+                filter: u => u.Email.Equals(dto.Email)).Result.FirstOrDefault();
+            if (user == null) return "User not found.";
 
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Result.Email),
+                new Claim(ClaimTypes.Email, user.Email)
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));

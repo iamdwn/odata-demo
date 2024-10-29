@@ -23,7 +23,7 @@ namespace KoiCareSys.Service.Service
         {
             try
             {
-                var ponds = await _unitOfWork.Pond.GetAllPond(search ?? "");
+                var ponds = await _unitOfWork.Pond.GetAllAsync();
                 if (ponds == null)
                     return new BusinessResult(Const.WARNING_NO_DATA_CODE, "Pond not found");
                 else
@@ -44,14 +44,16 @@ namespace KoiCareSys.Service.Service
                     return new BusinessResult(Const.ERROR_EXCEPTION, "request cannot be null.");
                 }
 
-                var tempUser = await _unitOfWork.User.GetFirstUser();
+                var tempUser = _unitOfWork.User.GetAllAsync(
+                    filter: u => u.Id.Equals(dto.UserId)
+                    ).Result.FirstOrDefault();
 
                 if (tempUser == null)
                 {
                     return new BusinessResult(Const.FAIL_CREATE_CODE, "No users not found.");
                 }
 
-                var existingPond = await _unitOfWork.Pond.GetAllPond(dto.PondName);
+                var existingPond = await _unitOfWork.Pond.GetAllAsync(filter: n => n.PondName.Equals(dto.PondName));
 
                 if (existingPond.Any())
                 {
