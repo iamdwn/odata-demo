@@ -75,6 +75,7 @@ namespace KoiCareSys.WebAPI.Controllers
         }
 
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut]
         public async Task<IBusinessResult> Update([FromBody] PondDTO request)
         {
@@ -82,12 +83,14 @@ namespace KoiCareSys.WebAPI.Controllers
         }
 
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<IBusinessResult> Create([FromBody] PondDTO request)
         {
             return await _pondService.Create(request);
         }
 
+        [Authorize]
         [HttpDelete("{id:guid}")]
         public async Task<IBusinessResult> Delete(Guid id)
         {
