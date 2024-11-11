@@ -5,12 +5,12 @@ using KoiCareSys.Data.Repository.Interface;
 using KoiCareSys.Service.Mappings;
 using KoiCareSys.Service.Service;
 using KoiCareSys.Service.Service.Interface;
+using KoiCareSys.WebAPI.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,36 +62,38 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API Title", Version = "v1" });
+//builder.Services.AddSwaggerGen(c =>
+//{
+//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API Title", Version = "v1" });
 
-    // Add JWT Bearer Authentication to Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter 'Bearer' [space] and then your token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-    });
+//    // Add JWT Bearer Authentication to Swagger
+//    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+//    {
+//        In = ParameterLocation.Header,
+//        Description = "Please enter 'Bearer' [space] and then your token",
+//        Name = "Authorization",
+//        Type = SecuritySchemeType.Http,
+//        Scheme = "bearer",
+//        BearerFormat = "JWT",
+//    });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] {}
-            }
-        });
-});
+//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+//        {
+//            {
+//                new OpenApiSecurityScheme
+//                {
+//                    Reference = new OpenApiReference
+//                    {
+//                        Type = ReferenceType.SecurityScheme,
+//                        Id = "Bearer"
+//                    }
+//                },
+//                new string[] {}
+//            }
+//        });
+//});
+
+builder.Services.AddSwaggerServices();
 
 //Add Configuration
 //builder.Services.ConfigAddDbContext();
